@@ -1,6 +1,8 @@
 #pragma once
+
 #include <cinttypes>
 #include <random>
+
 
 class Rand_gen_t
 {

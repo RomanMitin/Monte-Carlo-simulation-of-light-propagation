@@ -1,5 +1,7 @@
+
 #include <assert.h>
 #include <algorithm>
+
 #include "State.h"
 #include "Helpers_func.h"
 #include "Rand_gen.h"
@@ -43,42 +45,42 @@ void State_t::update_A_rz(Photon_t& photon)
 	update_weight(photon);
 }
 
-void State_t::update_Rd_r(double ref1, Photon_t& photon)
-{
-	double x = photon.x;
-	double y = photon.y;
-	uint32_t ir, ia; /* index to r & angle. */
+//void State_t::update_Rd_r(double ref1, Photon_t& photon)
+//{
+//	double x = photon.x;
+//	double y = photon.y;
+//	uint32_t ir, ia; /* index to r & angle. */
+//
+//	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
+//	ir = std::max(ir, nr - 1);
+//
+//	ia = static_cast<uint32_t>(acos(-photon.uz) / da);
+//	ir = std::max(ir, nr - 1);
+//
+//	/* assign photon to the transmittance array element. */
+//	//out.Rd_ra[ir][ia] += photon.weight * (1.0 - ref1);
+//
+//	photon.weight *= ref1;
+//
+//}
 
-	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
-	ir = std::max(ir, nr - 1);
-
-	ia = static_cast<uint32_t>(acos(-photon.uz) / da);
-	ir = std::max(ir, nr - 1);
-
-	/* assign photon to the transmittance array element. */
-	out.Rd_ra[ir][ia] += photon.weight * (1.0 - ref1);
-
-	photon.weight *= ref1;
-
-}
-
-void State_t::update_T_ra(double ref1, Photon_t& photon)
-{
-	double x = photon.x;
-	double y = photon.y;
-	uint32_t ir, ia; /* index to r & angle. */
-
-	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
-	ir = std::max(ir, nr - 1);
-
-	ia = static_cast<uint32_t>(acos(photon.uz) / da);
-	ir = std::max(ir, nr - 1);
-
-	/* assign photon to the transmittance array element. */
-	out.Tt_ra[ir][ia] += photon.weight * (1.0 - ref1);
-
-	photon.weight *= ref1;
-}
+//void State_t::update_T_ra(double ref1, Photon_t& photon)
+//{
+//	double x = photon.x;
+//	double y = photon.y;
+//	uint32_t ir, ia; /* index to r & angle. */
+//
+//	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
+//	ir = std::max(ir, nr - 1);
+//
+//	ia = static_cast<uint32_t>(acos(photon.uz) / da);
+//	ir = std::max(ir, nr - 1);
+//
+//	/* assign photon to the transmittance array element. */
+//	//out.Tt_ra[ir][ia] += photon.weight * (1.0 - ref1);
+//
+//	photon.weight *= ref1;
+//}
 
 void State_t::try_cross(Photon_t& photon)
 {
@@ -118,10 +120,10 @@ void State_t::try_cross(Photon_t& photon)
 		if (photon.cur_layer_ind == limit && r < 1.0) 
 		{
 			photon.z = -uz1;
-			if (is_up_cross)
-				update_Rd_r(r, photon);
-			else
-				update_T_ra(r, photon);
+			//if (is_up_cross)
+			//	//update_Rd_r(r, photon);
+			//else
+			//	//update_T_ra(r, photon);
 			photon.uz *= -uz;
 		}
 		else
@@ -143,10 +145,10 @@ void State_t::try_cross(Photon_t& photon)
 			/* transmitted to layer+1. */
 			if (photon.cur_layer_ind == limit) {
 				photon.uz = uz1;
-				if (is_up_cross)
-					update_Rd_r(r, photon);
-				else
-					update_T_ra(0.0, photon);
+				//if (is_up_cross)
+				//	//update_Rd_r(r, photon);
+				//else
+				//	//update_T_ra(0.0, photon);
 				photon.dead = true;
 			}
 			else 

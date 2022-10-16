@@ -4,6 +4,7 @@
 #include <cmath>
 #include <assert.h>
 
+
 extern Rand_gen_t rand_gen;
 
 
@@ -96,9 +97,12 @@ void Photon_t::set_step_size_in_tissue(const Layer_t& layer)
 
 	if (step_left == 0.0) {
 
-		double rnd = rand_gen();
-
-		assert(rnd >= 0);
+		double rnd;
+		do
+		{
+			rnd = rand_gen();
+		}
+		while (rnd <= 0.0);
 
 		step = -log(rnd) / mut;
 	}
@@ -146,9 +150,4 @@ void Photon_t::do_step()
 	x += step * ux;
 	y += step * uy;
 	z += step * uz;
-}
-
-Photon_t::~Photon_t()
-{
-
 }

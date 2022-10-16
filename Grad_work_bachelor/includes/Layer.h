@@ -9,11 +9,12 @@ struct Layer_t {
 	double g; 
 	double cos_crit0, cos_crit1;
 
-	Layer_t();
+	Layer_t() = default;
 
 	bool is_glass() const;
 
 	double Rspecular();
 
-	~Layer_t();
+	~Layer_t() = default;
 };
+

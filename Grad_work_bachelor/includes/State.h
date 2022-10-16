@@ -1,5 +1,7 @@
 #pragma once
+
 #include <vector>
+
 #include "Output.h"
 #include "Rand_gen.h"
 #include "Layer.h"
@@ -11,9 +13,9 @@ struct State_t
 
 	//Rand_gen_t rand_gen;
 
-	double dz, dr, da;
+	double dz, dr/*, da*/;
 
-	uint32_t nz, nr, na; // ????
+	uint32_t nz, nr/*, na*/;
 	Output_t out;
 
 	State_t() = default;
@@ -22,8 +24,8 @@ struct State_t
 
 	void update_weight(Photon_t& photon);
 	void update_A_rz(Photon_t& photon);
-	void update_Rd_r(double ref1, Photon_t& photon);
-	void update_T_ra(double ref1, Photon_t& photon);
+	//void update_Rd_r(double ref1, Photon_t& photon);
+	//void update_T_ra(double ref1, Photon_t& photon);
 
 	void try_cross(Photon_t& photon);
 

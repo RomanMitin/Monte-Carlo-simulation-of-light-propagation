@@ -1,5 +1,7 @@
 #pragma once
+
 #include <cinttypes>
+
 #include "Defines.h"
 #include "Layer.h"
 
@@ -33,5 +35,5 @@ struct Photon_t
 
 	void do_step();
 
-	~Photon_t();
+	~Photon_t() = default;
 };

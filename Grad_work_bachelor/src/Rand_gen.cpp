@@ -1,5 +1,7 @@
 #include "Rand_gen.h"
 
+Rand_gen_t rand_gen;
+
 Rand_gen_t::Rand_gen_t()
 	:rand_engine(), dist() {}
 

@@ -1,5 +1,7 @@
 #pragma once
+
 #include <numbers>
+
 
 constexpr double THRESHOLD_WEIGHT = 1e-4;;
 
