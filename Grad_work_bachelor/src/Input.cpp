@@ -58,6 +58,8 @@ void from_json(const json& j, State_t& state)
 	state.nr = j.at("nr");
 
 	state.out.A_rz = Array_2d_t<double>(state.nr, state.nz);
+	state.out.A_l.resize(state.nr);
+	state.out.A_z.resize(state.nz);
 
 	state.critical_weigth = j.at("Critical_weight");
 }

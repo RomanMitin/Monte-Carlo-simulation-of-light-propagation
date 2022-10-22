@@ -39,6 +39,9 @@ void State_t::update_weight(Photon_t& photon)
 
 	/* assign dwa to the absorption array element. */
 	out.A_rz[ir][iz] += dwa;
+	out.A_z[iz] += dwa;
+	out.A_l[ir] += dwa;
+	out.A += dwa;
 }
 
 void State_t::update_A_rz(Photon_t& photon)
