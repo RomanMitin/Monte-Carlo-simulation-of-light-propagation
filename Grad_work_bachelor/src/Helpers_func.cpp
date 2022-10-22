@@ -5,18 +5,18 @@ double RFresnel(double n1, double n2, double ca1, double* ca2_Ptr)
 {
 	double r;
 
-	if (n1 == n2) 
+	if (n1 == n2)
 	{ /** matched boundary. **/
 		*ca2_Ptr = ca1;
 		r = 0.0;
 	}
-	else if (ca1 > COS0) 
+	else if (ca1 > COS0)
 	{ /** normal incident. **/
 		*ca2_Ptr = ca1;
 		r = (n2 - n1) / (n2 + n1);
 		r *= r;
 	}
-	else if (ca1 < COS90) 
+	else if (ca1 < COS90)
 	{ /** very slant. **/
 		*ca2_Ptr = 0.0;
 		r = 1.0;

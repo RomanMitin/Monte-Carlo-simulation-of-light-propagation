@@ -23,6 +23,8 @@
     "dr": 1e-4,
 
     "nz": 10,
-    "nr": 20
+    "nr": 10,
+
+    "Critical_weight": 0.1
   }
 }

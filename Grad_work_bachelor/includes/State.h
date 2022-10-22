@@ -15,6 +15,8 @@ struct State_t
 
 	double dz, dr/*, da*/;
 
+	double critical_weigth;
+
 	uint32_t nz, nr/*, na*/;
 	Output_t out;
 
@@ -34,6 +36,8 @@ struct State_t
 
 	void alg_step(Photon_t& photon);
 	void launch_photon();
+
+	void calc_Rspecular();
 
 	~State_t() = default;
 };

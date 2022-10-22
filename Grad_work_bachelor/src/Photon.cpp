@@ -16,8 +16,9 @@ double get_sign(double num)
 	return bit_num ? -1.0 : 1.0;
 }
 
-Photon_t::Photon_t()
-	:x(), y(), z(), ux(), uy(), uz(), cur_layer_ind(), weight(), dead(), step(), step_left()
+Photon_t::Photon_t(double Rspecular)
+	:x(), y(), z(), ux(), uy(), uz(1.0), cur_layer_ind(1), 
+		weight(1.0 - Rspecular), dead(), step(), step_left()
 {
 
 }
@@ -25,6 +26,20 @@ Photon_t::Photon_t()
 bool Photon_t::is_alive()
 {
 	return !dead;
+}
+
+void Photon_t::Roulette()
+{
+	assert(weight >= 0);
+	if (weight == 0)
+		dead = true;
+	else
+		if (rand_gen() < CHANCE)
+		{
+			weight /= CHANCE;
+		}
+		else
+			dead = true;
 }
 
 double Photon_t::spinTheta(double g)

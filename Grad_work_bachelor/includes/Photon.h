@@ -18,9 +18,12 @@ struct Photon_t
 	double step;
 	double step_left;
 
-	Photon_t();
+	Photon_t() = delete;
+	Photon_t(double Rspecular);
 
 	bool is_alive();
+
+	void Roulette();
 
 	double spinTheta(double g);
 	void spin(double g);

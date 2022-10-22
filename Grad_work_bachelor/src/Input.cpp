@@ -47,9 +47,9 @@ void calc_cos_crit(std::vector<Layer_t>& layers)
 
 void from_json(const json& j, State_t& state) 
 {
+	state.layers.push_back(Layer_t());
 	state.layers = j.at("layers");
-
-	calc_cos_crit(state.layers);
+	state.layers.push_back(Layer_t());
 
 	state.dz = j.at("dz");
 	state.dr = j.at("dr");
@@ -58,6 +58,8 @@ void from_json(const json& j, State_t& state)
 	state.nr = j.at("nr");
 
 	state.out.A_rz = Array_2d_t<double>(state.nr, state.nz);
+
+	state.critical_weigth = j.at("Critical_weight");
 }
 
 State_t input_state(const std::string& input_file_name)
@@ -80,6 +82,8 @@ State_t input_state(const std::string& input_file_name)
 
 	state = j.at("State");
 
+	calc_cos_crit(state.layers);
+	state.calc_Rspecular();
 	
 	return state;
 }

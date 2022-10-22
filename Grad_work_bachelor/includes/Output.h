@@ -5,7 +5,7 @@
 
 struct Output_t
 {
-	//double Rsp; /* specular reflectance. [-] */
+	double Rsp; /* specular reflectance. [-] */
 	//Array_2d_t<double> Rd_ra; /* 2D distribution of diffuse */
 	///* reflectance. [1/(cm2 sr)] */
 	//std::vector<double> Rd_r; /* 1D radial distribution of diffuse */

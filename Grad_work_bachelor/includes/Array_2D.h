@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <vector>
 #include <assert.h>
+#include <type_traits>
 
 
 template<typename T>
@@ -11,7 +12,7 @@ class Array_2d_t
 {
 public:
 	
-	Array_2d_t()
+	Array_2d_t() noexcept
 		:size_row(0), size_col(0), data(nullptr)
 	{}
 
@@ -20,6 +21,8 @@ public:
 	{
 		if (size_row * size_col)
 			data = new T[size_row * size_col];
+
+		std::fill(data, data + size_row * size_col, 0.0);
 	}
 
 	Array_2d_t(const Array_2d_t& rhs)
@@ -33,7 +36,7 @@ public:
 		}
 	}
 
-	Array_2d_t(Array_2d_t&& rhs)
+	Array_2d_t(Array_2d_t&& rhs) noexcept
 		:size_row(rhs.size_row), size_col(rhs.size_col), data(rhs.data)
 	{
 		rhs.size_col = 0;
@@ -63,7 +66,7 @@ public:
 		return *this;
 	}
 
-	Array_2d_t& operator=(Array_2d_t&& rhs)
+	Array_2d_t& operator=(Array_2d_t&& rhs) noexcept
 	{
 		if (this != &rhs)
 		{
@@ -80,7 +83,24 @@ public:
 		return *this;
 	}
 
-	T* operator[](size_t ind)
+	size_t size_r() const noexcept
+	{
+		return size_row;
+	}
+
+	size_t size_c() const noexcept
+	{
+		return size_col;
+	}
+
+	T* operator[](size_t ind) noexcept
+	{
+		assert(ind < size_row);
+
+		return data + ind * size_col;
+	}
+
+	const T* operator[](size_t ind) const noexcept
 	{
 		assert(ind < size_row);
 

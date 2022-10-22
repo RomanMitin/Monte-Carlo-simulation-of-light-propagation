@@ -14,7 +14,8 @@ Layer_t& State_t::get_layer(Photon_t& photon)
 	return layers[photon.cur_layer_ind];
 }
 
-void State_t::update_weight(Photon_t& photon)
+// RecordR //
+void State_t::update_weight(Photon_t& photon) 
 {
 	double dwa; /* absorbed weight.*/
 	double x = photon.x;
@@ -25,10 +26,10 @@ void State_t::update_weight(Photon_t& photon)
 
 	/* compute array indices. */
 	iz = static_cast<uint32_t>(photon.z / dz);
-	iz = std::max(iz, nz - 1);
+	iz = std::min(iz, nz - 1);
 
 	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
-	ir = std::max(ir, nr - 1);
+	ir = std::min(ir, nr - 1);
 
 	/* update photon weight. */
 	mua = layer.mua;
@@ -89,7 +90,7 @@ void State_t::try_cross(Photon_t& photon)
 	bool is_up_cross = uz > 0.0 ? false : true;
 	int sign = is_up_cross ? -1 : 1;
 
-	double uz1; /* cosines of transmission alpha. */
+	double uz1 = 0.0; /* cosines of transmission alpha. */
 	double r = 0.0; /* reflectance */
 	const Layer_t& layer = layers[photon.cur_layer_ind];
 	const Layer_t& next_layer = layers[photon.cur_layer_ind + sign];
@@ -119,12 +120,12 @@ void State_t::try_cross(Photon_t& photon)
 	{
 		if (photon.cur_layer_ind == limit && r < 1.0) 
 		{
-			photon.z = -uz1;
+			photon.uz = -uz1;
 			//if (is_up_cross)
 			//	//update_Rd_r(r, photon);
 			//else
 			//	//update_T_ra(r, photon);
-			photon.uz *= -uz;
+			photon.uz = -uz;
 		}
 		else
 			if (rand_gen() > r)
@@ -213,13 +214,39 @@ void State_t::alg_step(Photon_t& photon)
 	{
 		alg_step_tissue(photon);
 	}
+
+	if (photon.weight < critical_weigth && photon.is_alive())
+	{
+		photon.Roulette();
+	}
+
 }
 
 void State_t::launch_photon()
 {
-	Photon_t photon{};
+	Photon_t photon{ out.Rsp };
 
 	while (photon.is_alive())
 		alg_step(photon);
 }
 
+void State_t::calc_Rspecular()
+{
+	assert(layers.size() >= 2);
+
+	double r1, r2;
+	/* direct reflections from the 1st and 2nd layers. */
+	double temp;
+
+	temp = (layers[0].n - layers[1].n) / (layers[0].n + layers[1].n);
+	r1 = temp * temp;
+
+	if (layers[1].is_glass() && layers.size() >= 3)
+	{ 
+		temp = (layers[1].n - layers[2].n) / (layers[1].n + layers[2].n);
+		r2 = temp * temp;
+		r1 = r1 + (1 - r1) * (1 - r1) * r2 / (1 - r1 * r2);
+	}
+
+	out.Rsp = r1;
+}

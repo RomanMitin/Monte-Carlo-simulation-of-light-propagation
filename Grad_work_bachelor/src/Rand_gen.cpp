@@ -3,7 +3,7 @@
 Rand_gen_t rand_gen;
 
 Rand_gen_t::Rand_gen_t()
-	:rand_engine(), dist() {}
+	:rand_engine(), dist(0.0, 1.0) {}
 
 Rand_gen_t::Rand_gen_t(const Rand_gen_t& rhs)
 	: rand_engine(rhs.rand_engine), dist(rhs.dist) {}
