@@ -13,8 +13,6 @@ struct Layer_t {
 
 	bool is_glass() const;
 
-	double Rspecular();
-
 	~Layer_t() = default;
 };
 

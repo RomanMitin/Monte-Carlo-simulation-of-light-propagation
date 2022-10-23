@@ -68,16 +68,22 @@ void print_2D_arr(const Array_2d_t<double>& arr, double dr, double dz)
 	}
 }
 
-int main()
+int main(int argc, char* argv[])
 {
-	State_t s = input_state();
+	std::string input_str;
+	if (argc >= 2)
+		input_str = argv[1];
+	else
+		input_str = "../input/input.json";
+
+	State_t s = input_state(input_str);
 
 	const Output_t& out = s.out;
 	const Array_2d_t<double>& arr = out.A_rz;
 	const std::vector<double>& a_l = out.A_l;
 	const std::vector<double>& a_z = out.A_z;
 
-	for (int i = 0; i < 1'000; i++)
+	for (int i = 0; i < 100; i++)
 		s.launch_photon();
 
 	std::cout << std::setprecision(4);
