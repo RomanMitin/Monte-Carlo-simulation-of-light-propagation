@@ -7,13 +7,15 @@
 #include "State.h"
 
 
+constexpr int tab_size = 12;
+
 void print_A_z(const std::vector<double>& a_z, double dz)
 {
 	std::cout << "A_z:\n";
 
 	for (double z = 0; z < dz * a_z.size(); z += dz)
 	{
-		std::cout << z << '\t';
+		std::cout << z << std::setw(tab_size);
 	}
 
 	std::cout << '\n';
@@ -21,7 +23,7 @@ void print_A_z(const std::vector<double>& a_z, double dz)
 
 	for (int i = 0; i < a_z.size(); i++)
 	{
-		std::cout << a_z[i] << '\t';
+		std::cout << a_z[i] << std::setw(tab_size);
 	}
 	std::cout << "\n\n";
 }
@@ -33,13 +35,13 @@ void print_A_l(const std::vector<double>& a_l, double dr)
 
 	for (double r = 0; r < dr * a_l.size(); r += dr)
 	{
-		std::cout << r << '\t';
+		std::cout << r << std::setw(tab_size);
 	}
 	std::cout << '\n';
 
 	for (int i = 0; i < a_l.size(); i++)
 	{
-		std::cout << a_l[i] << '\t';
+		std::cout << a_l[i] << std::setw(tab_size);
 	}
 	std::cout << "\n\n";
 
@@ -47,22 +49,22 @@ void print_A_l(const std::vector<double>& a_l, double dr)
 
 void print_2D_arr(const Array_2d_t<double>& arr, double dr, double dz)
 {
-	std::cout << "A_rz:\nz\\r\t";
+	std::cout << "A_rz:\nz\\r" << std::setw(tab_size);
 
 	for (double r = 0; r < dr * arr.size_r(); r += dr)
 	{
-		std::cout << r << '\t';
+		std::cout << r << std::setw(tab_size);
 	}
 
 	std::cout << '\n';
 
 	double z = 0.0;
-	for (int i = 0; i < arr.size_r(); i++, z += dz)
+	for (int i = 0; i < arr.size_c(); i++, z += dz)
 	{
-		std::cout << z << '\t';
-		for (int j = 0; j < arr.size_c(); j++)
+		std::cout << z << std::setw(tab_size);
+		for (int j = 0; j < arr.size_r(); j++)
 		{
-			std::cout << arr[i][j] << '\t';
+			std::cout << arr[j][i] << std::setw(tab_size);
 		}
 		std::cout << '\n';
 	}
@@ -80,16 +82,16 @@ int main(int argc, char* argv[])
 
 	const Output_t& out = s.out;
 	const Array_2d_t<double>& arr = out.A_rz;
-	const std::vector<double>& a_l = out.A_l;
-	const std::vector<double>& a_z = out.A_z;
 
-	for (int i = 0; i < 100; i++)
+	for (int i = 0; i < 500'000; i++)
 		s.launch_photon();
 
-	std::cout << std::setprecision(4);
+	//std::cout << std::setprecision(3);
+	std::cout << std::fixed;
+	std::cout << std::setprecision(3);
 
-	print_A_l(a_l, s.dr);
-	print_A_z(a_z, s.dz);
+	//print_A_l(a_l, s.dr);
+	//print_A_z(a_z, s.dz);
 	
 
 	print_2D_arr(arr, s.dr, s.dz);

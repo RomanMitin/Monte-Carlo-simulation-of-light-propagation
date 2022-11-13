@@ -1,7 +1,8 @@
 #pragma once
 
 
-struct Layer_t {
+struct Layer_t 
+{
 	double z0, z1; 
 	double n; 
 	double mua; 
@@ -9,7 +10,8 @@ struct Layer_t {
 	double g; 
 	double cos_crit0, cos_crit1;
 
-	Layer_t() = default;
+	Layer_t();
+	Layer_t(double z0);
 
 	bool is_glass() const;
 

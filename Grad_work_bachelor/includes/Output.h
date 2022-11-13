@@ -5,7 +5,7 @@
 
 struct Output_t
 {
-	double Rsp; /* specular reflectance. [-] */
+	double Rsp = 0.0; /* specular reflectance. [-] */
 	//Array_2d_t<double> Rd_ra; /* 2D distribution of diffuse */
 	///* reflectance. [1/(cm2 sr)] */
 	//std::vector<double> Rd_r; /* 1D radial distribution of diffuse */
@@ -15,11 +15,11 @@ struct Output_t
 	//double Rd; /* total diffuse reflectance. [-] */
 	Array_2d_t<double> A_rz; /* 2D probability density in turbid */
 	/* media over r & z. [1/cm3] */
-	std::vector<double> A_z; /* 1D probability density over z. */
+	//std::vector<double> A_z; /* 1D probability density over z. */
 	/* [1/cm] */
-	std::vector<double> A_l; /* each layer's absorption */
+	//std::vector<double> A_l; /* each layer's absorption */
 		/* probability. [-] */
-	double A; /* total absorption probability. [-] */
+	double A = 0.0; /* total absorption probability. [-] */
 	//Array_2d_t<double> Tt_ra; /* 2D distribution of total */
 	///* transmittance. [1/(cm2 sr)] */
 	//std::vector<double> Tt_r; /* 1D radial distribution of */

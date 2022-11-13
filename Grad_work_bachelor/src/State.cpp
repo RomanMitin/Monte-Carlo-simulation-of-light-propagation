@@ -39,8 +39,8 @@ void State_t::update_weight(Photon_t& photon)
 
 	/* assign dwa to the absorption array element. */
 	out.A_rz[ir][iz] += dwa;
-	out.A_z[iz] += dwa;
-	out.A_l[ir] += dwa;
+	//out.A_z[iz] += dwa;
+	//out.A_l[ir] += dwa;
 	out.A += dwa;
 }
 
@@ -117,7 +117,7 @@ void State_t::try_cross(Photon_t& photon)
 			r = RFresnel(ni, nt, uz, &uz1);
 	}
 	
-	size_t limit = is_up_cross ? 1 : layers.size();
+	size_t limit = is_up_cross ? 1 : layers.size() - 2;
 
 	if constexpr (PARTIAL_REFLECTION)
 	{

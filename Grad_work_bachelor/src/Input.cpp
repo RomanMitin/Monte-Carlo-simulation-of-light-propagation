@@ -47,19 +47,26 @@ void calc_cos_crit(std::vector<Layer_t>& layers)
 
 void from_json(const json& j, State_t& state) 
 {
-	state.layers.push_back(Layer_t());
-	state.layers = j.at("layers");
-	state.layers.push_back(Layer_t());
+	std::vector<Layer_t> tmp_vec;
+	tmp_vec = j.at("layers");
+
+	state.layers.emplace_back(Layer_t());
+	std::copy(tmp_vec.begin(), tmp_vec.end(), std::back_inserter(state.layers));
+	state.layers.emplace_back(Layer_t(state.layers.back().z1));
 
 	state.dz = j.at("dz");
 	state.dr = j.at("dr");
 
-	state.nz = j.at("nz");
 	state.nr = j.at("nr");
+	state.nz = static_cast<uint32_t>(state.layers.back().z0 / state.dz);
 
 	state.out.A_rz = Array_2d_t<double>(state.nr, state.nz);
-	state.out.A_l.resize(state.nr);
-	state.out.A_z.resize(state.nz);
+	//state.out.A_l.resize(state.nr);
+	//state.out.A_z.resize(state.nz);
+	if (j.find("nz") != j.end())
+	{
+		std::cerr << "Warning nz not uzed\n";
+	}
 
 	state.critical_weigth = j.at("Critical_weight");
 }
