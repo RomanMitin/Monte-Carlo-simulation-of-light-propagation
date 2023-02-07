@@ -83,7 +83,7 @@ int main(int argc, char* argv[])
 	const Output_t& out = s.out;
 	const Array_2d_t<double>& arr = out.A_rz;
 
-	for (int i = 0; i < 500'000; i++)
+	for (int i = 0; i < s.photon_num; i++)
 		s.launch_photon();
 
 	//std::cout << std::setprecision(3);

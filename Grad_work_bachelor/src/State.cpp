@@ -23,19 +23,27 @@ void State_t::update_weight(Photon_t& photon)
 	uint32_t iz, ir; /* index to z & r. */
 	const Layer_t& layer = get_layer(photon);
 	double mua, mus;
-
-	/* compute array indices. */
-	iz = static_cast<uint32_t>(photon.z / dz);
-	iz = std::min(iz, nz - 1);
-
-	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
-	ir = std::min(ir, nr - 1);
-
+	
 	/* update photon weight. */
 	mua = layer.mua;
 	mus = layer.mus;
 	dwa = photon.weight * mua / (mua + mus);
 	photon.weight -= dwa;
+
+	/* compute array indices. */
+	iz = static_cast<uint32_t>(photon.z / dz);
+	//iz = std::min(iz, nz - 1);
+	if (iz >= nz)
+	{
+		return;
+	}
+
+	ir = static_cast<uint32_t>(sqrt(x * x + y * y) / dr);
+	if (ir >= nr)
+	{
+		return;
+	}
+
 
 	/* assign dwa to the absorption array element. */
 	out.A_rz[ir][iz] += dwa;
@@ -123,7 +131,7 @@ void State_t::try_cross(Photon_t& photon)
 	{
 		if (photon.cur_layer_ind == limit && r < 1.0) 
 		{
-			photon.uz = -uz1;
+			//photon.uz = -uz1;
 			//if (is_up_cross)
 			//	//update_Rd_r(r, photon);
 			//else
@@ -144,6 +152,7 @@ void State_t::try_cross(Photon_t& photon)
 	}
 	else
 	{
+		
 		if (rand_gen() > r) 
 		{ 
 			/* transmitted to layer+1. */
@@ -238,7 +247,6 @@ void State_t::calc_Rspecular()
 	assert(layers.size() >= 2);
 
 	double r1, r2;
-	/* direct reflections from the 1st and 2nd layers. */
 	double temp;
 
 	temp = (layers[0].n - layers[1].n) / (layers[0].n + layers[1].n);

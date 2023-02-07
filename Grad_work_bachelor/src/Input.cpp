@@ -65,10 +65,12 @@ void from_json(const json& j, State_t& state)
 	//state.out.A_z.resize(state.nz);
 	if (j.find("nz") != j.end())
 	{
-		std::cerr << "Warning nz not uzed\n";
+		std::cerr << "Warning: nz not uzed\n";
 	}
 
 	state.critical_weigth = j.at("Critical_weight");
+
+	state.photon_num = j.at("Photon_num");
 }
 
 State_t input_state(const std::string& input_file_name)
@@ -93,6 +95,6 @@ State_t input_state(const std::string& input_file_name)
 
 	calc_cos_crit(state.layers);
 	state.calc_Rspecular();
-	
+
 	return state;
 }

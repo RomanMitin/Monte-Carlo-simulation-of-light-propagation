@@ -31,15 +31,22 @@ bool Photon_t::is_alive()
 void Photon_t::Roulette()
 {
 	assert(weight >= 0);
+
 	if (weight == 0)
+	{
 		dead = true;
+	}
 	else
+	{
 		if (rand_gen() < CHANCE)
 		{
 			weight /= CHANCE;
 		}
 		else
+		{
 			dead = true;
+		}
+	}
 }
 
 double Photon_t::spinTheta(double g)
@@ -47,13 +54,16 @@ double Photon_t::spinTheta(double g)
 	double cost;
 
 	if (g == 0.0)
+	{
 		cost = 2 * rand_gen() - 1;
+	}
 	else 
 	{
 		double temp = (1 - g * g) / (1 - g + 2 * g * rand_gen());
 		cost = (1 + g * g - temp * temp) / (2 * g);
 
 	}
+
 	return cost;
 }
 

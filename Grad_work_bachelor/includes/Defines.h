@@ -3,7 +3,7 @@
 #include <numbers>
 
 
-constexpr double THRESHOLD_WEIGHT = 1e-4;;
+constexpr double THRESHOLD_WEIGHT = 1e-4;
 
 constexpr double CHANCE = 0.1;
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <cinttypes>
 
 #include "Output.h"
 #include "Rand_gen.h"
@@ -9,6 +10,8 @@
 
 struct State_t
 {
+	uint64_t photon_num;
+
 	std::vector<Layer_t> layers;
 
 	//Rand_gen_t rand_gen;
