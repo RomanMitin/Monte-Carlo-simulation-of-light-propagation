@@ -45,7 +45,7 @@ void calc_cos_crit(std::vector<Layer_t>& layers)
 	layers[i].cos_crit0 = n1 > n2 ? sqrt(1.0 - n2 * n2 / (n1 * n1)) : 0.0;
 }
 
-void from_json(const json& j, State_t& state) 
+void from_json(const json& j, State_t& state)
 {
 	std::vector<Layer_t> tmp_vec;
 	tmp_vec = j.at("layers");
@@ -60,7 +60,6 @@ void from_json(const json& j, State_t& state)
 	state.nr = j.at("nr");
 	state.nz = static_cast<uint32_t>(state.layers.back().z0 / state.dz);
 
-	state.out.A_rz = Array_2d_t<double>(state.nr, state.nz);
 	//state.out.A_l.resize(state.nr);
 	//state.out.A_z.resize(state.nz);
 	if (j.find("nz") != j.end())
@@ -71,6 +70,15 @@ void from_json(const json& j, State_t& state)
 	state.critical_weigth = j.at("Critical_weight");
 
 	state.photon_num = j.at("Photon_num");
+
+	uint32_t thread_num = j.at("Thread_num");
+
+	state.out.resize(thread_num);
+
+	for (int i = 0; i < thread_num; i++)
+	{
+		state.out[i].A_rz = Array_2d_t<double>(state.nr, state.nz);
+	}
 }
 
 State_t input_state(const std::string& input_file_name)

@@ -46,10 +46,10 @@ void State_t::update_weight(Photon_t& photon)
 
 
 	/* assign dwa to the absorption array element. */
-	out.A_rz[ir][iz] += dwa;
+	out[tid].A_rz[ir][iz] += dwa;
 	//out.A_z[iz] += dwa;
 	//out.A_l[ir] += dwa;
-	out.A += dwa;
+	out[tid].A += dwa;
 }
 
 void State_t::update_A_rz(Photon_t& photon)
@@ -236,7 +236,7 @@ void State_t::alg_step(Photon_t& photon)
 
 void State_t::launch_photon()
 {
-	Photon_t photon{ out.Rsp };
+	Photon_t photon{ out[tid].Rsp};
 
 	while (photon.is_alive())
 		alg_step(photon);
@@ -259,5 +259,10 @@ void State_t::calc_Rspecular()
 		r1 = r1 + (1 - r1) * (1 - r1) * r2 / (1 - r1 * r2);
 	}
 
-	out.Rsp = r1;
+	out[tid].Rsp = r1;
+}
+
+uint32_t State_t::get_num_threads()
+{
+	return out.size();
 }

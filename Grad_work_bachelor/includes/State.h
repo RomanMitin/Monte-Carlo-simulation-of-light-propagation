@@ -21,7 +21,7 @@ struct State_t
 	double critical_weigth;
 
 	uint32_t nz, nr/*, na*/;
-	Output_t out;
+	std::vector<Output_t> out;
 
 	State_t() = default;
 
@@ -42,5 +42,9 @@ struct State_t
 
 	void calc_Rspecular();
 
+	uint32_t get_num_threads();
+
 	~State_t() = default;
 };
+
+inline thread_local int tid;
