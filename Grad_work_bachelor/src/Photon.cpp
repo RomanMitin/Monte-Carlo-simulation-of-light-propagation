@@ -1,5 +1,5 @@
-#include "Rand_gen.h"
-#include "Photon.h"
+#include "Rand_gen.hpp"
+#include "Photon.hpp"
 
 #include <cmath>
 #include <assert.h>

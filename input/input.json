@@ -25,7 +25,6 @@
     "nr": 13,
 
     "Critical_weight": 0.1,
-    "thread_num": 10,
     "Photon_num": 50000,
     "Thread_num": 4
   }

@@ -146,21 +146,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="includes\Array_2D.h" />
-    <ClInclude Include="includes\Defines.h" />
-    <ClInclude Include="includes\Helpers_func.h" />
+    <ClInclude Include="includes\Array_2D.hpp" />
+    <ClInclude Include="includes\Defines.hpp" />
     <ClInclude Include="includes\Input.hpp" />
-    <ClInclude Include="includes\Layer.h" />
-    <ClInclude Include="includes\Output.h" />
-    <ClInclude Include="includes\Photon.h" />
-    <ClInclude Include="includes\Rand_gen.h" />
-    <ClInclude Include="includes\State.h" />
+    <ClInclude Include="includes\Launch_photon.hpp" />
+    <ClInclude Include="includes\Layer.hpp" />
+    <ClInclude Include="includes\Output_data.hpp" />
+    <ClInclude Include="includes\Output.hpp" />
+    <ClInclude Include="includes\Photon.hpp" />
+    <ClInclude Include="includes\Rand_gen.hpp" />
+    <ClInclude Include="includes\State.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Input.cpp" />
-    <ClCompile Include="src\Helpers_func.cpp" />
+    <ClCompile Include="src\Launch_photon.cpp" />
     <ClCompile Include="src\Layer.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Output.cpp" />
     <ClCompile Include="src\Photon.cpp" />
     <ClCompile Include="src\Rand_gen.cpp" />
     <ClCompile Include="src\State.cpp" />

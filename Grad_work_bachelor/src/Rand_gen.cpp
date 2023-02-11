@@ -1,4 +1,4 @@
-#include "Rand_gen.h"
+#include "Rand_gen.hpp"
 
 Rand_gen_t rand_gen;
 

@@ -1,9 +1,9 @@
 #pragma once
 #include <vector>
 #include <cinttypes>
-#include "Array_2D.h"
+#include "Array_2D.hpp"
 
-struct Output_t
+struct Output_data_t
 {
 	double Rsp = 0.0; /* specular reflectance. [-] */
 	//Array_2d_t<double> Rd_ra; /* 2D distribution of diffuse */

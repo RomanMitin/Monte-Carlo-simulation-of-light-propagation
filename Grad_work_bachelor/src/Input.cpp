@@ -60,8 +60,8 @@ void from_json(const json& j, State_t& state)
 	state.nr = j.at("nr");
 	state.nz = static_cast<uint32_t>(state.layers.back().z0 / state.dz);
 
-	//state.out.A_l.resize(state.nr);
-	//state.out.A_z.resize(state.nz);
+	//state.Output_data.A_l.resize(state.nr);
+	//state.Output_data.A_z.resize(state.nz);
 	if (j.find("nz") != j.end())
 	{
 		std::cerr << "Warning: nz not uzed\n";
@@ -73,11 +73,11 @@ void from_json(const json& j, State_t& state)
 
 	uint32_t thread_num = j.at("Thread_num");
 
-	state.out.resize(thread_num);
+	state.Output_data.resize(thread_num);
 
 	for (int i = 0; i < thread_num; i++)
 	{
-		state.out[i].A_rz = Array_2d_t<double>(state.nr, state.nz);
+		state.Output_data[i].A_rz = Array_2d_t<double>(state.nr, state.nz);
 	}
 }
 

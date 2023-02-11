@@ -3,10 +3,10 @@
 #include <vector>
 #include <cinttypes>
 
-#include "Output.h"
-#include "Rand_gen.h"
-#include "Layer.h"
-#include "Photon.h"
+#include "Output_data.hpp"
+#include "Rand_gen.hpp"
+#include "Layer.hpp"
+#include "Photon.hpp"
 
 struct State_t
 {
@@ -21,7 +21,7 @@ struct State_t
 	double critical_weigth;
 
 	uint32_t nz, nr/*, na*/;
-	std::vector<Output_t> out;
+	std::vector<Output_data_t> Output_data;
 
 	State_t() = default;
 

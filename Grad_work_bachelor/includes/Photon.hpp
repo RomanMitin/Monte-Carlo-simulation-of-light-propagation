@@ -2,8 +2,8 @@
 
 #include <cinttypes>
 
-#include "Defines.h"
-#include "Layer.h"
+#include "Defines.hpp"
+#include "Layer.hpp"
 
 struct Photon_t
 {

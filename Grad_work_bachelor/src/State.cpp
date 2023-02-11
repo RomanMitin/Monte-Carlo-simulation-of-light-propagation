@@ -2,11 +2,12 @@
 #include <assert.h>
 #include <algorithm>
 
-#include "State.h"
-#include "Helpers_func.h"
-#include "Rand_gen.h"
+#include "State.hpp"
+#include "Rand_gen.hpp"
 
 extern Rand_gen_t rand_gen;
+
+double RFresnel(double n1, double n2, double ca1, double* ca2_Ptr);
 
 Layer_t& State_t::get_layer(Photon_t& photon)
 {
@@ -46,10 +47,10 @@ void State_t::update_weight(Photon_t& photon)
 
 
 	/* assign dwa to the absorption array element. */
-	out[tid].A_rz[ir][iz] += dwa;
-	//out.A_z[iz] += dwa;
-	//out.A_l[ir] += dwa;
-	out[tid].A += dwa;
+	Output_data[tid].A_rz[ir][iz] += dwa;
+	//Output_data.A_z[iz] += dwa;
+	//Output_data.A_l[ir] += dwa;
+	Output_data[tid].A += dwa;
 }
 
 void State_t::update_A_rz(Photon_t& photon)
@@ -70,7 +71,7 @@ void State_t::update_A_rz(Photon_t& photon)
 //	ir = std::max(ir, nr - 1);
 //
 //	/* assign photon to the transmittance array element. */
-//	//out.Rd_ra[ir][ia] += photon.weight * (1.0 - ref1);
+//	//Output_data.Rd_ra[ir][ia] += photon.weight * (1.0 - ref1);
 //
 //	photon.weight *= ref1;
 //
@@ -89,7 +90,7 @@ void State_t::update_A_rz(Photon_t& photon)
 //	ir = std::max(ir, nr - 1);
 //
 //	/* assign photon to the transmittance array element. */
-//	//out.Tt_ra[ir][ia] += photon.weight * (1.0 - ref1);
+//	//Output_data.Tt_ra[ir][ia] += photon.weight * (1.0 - ref1);
 //
 //	photon.weight *= ref1;
 //}
@@ -236,7 +237,7 @@ void State_t::alg_step(Photon_t& photon)
 
 void State_t::launch_photon()
 {
-	Photon_t photon{ out[tid].Rsp};
+	Photon_t photon{ Output_data[tid].Rsp};
 
 	while (photon.is_alive())
 		alg_step(photon);
@@ -259,10 +260,69 @@ void State_t::calc_Rspecular()
 		r1 = r1 + (1 - r1) * (1 - r1) * r2 / (1 - r1 * r2);
 	}
 
-	out[tid].Rsp = r1;
+	Output_data[tid].Rsp = r1;
 }
 
 uint32_t State_t::get_num_threads()
 {
-	return out.size();
+	return Output_data.size();
+}
+
+
+
+double RFresnel(double n1, double n2, double ca1, double* ca2_Ptr)
+{
+	double r;
+
+	if (n1 == n2)
+	{ /** matched boundary. **/
+		*ca2_Ptr = ca1;
+		r = 0.0;
+	}
+	else if (ca1 > COS0)
+	{ /** normal incident. **/
+		*ca2_Ptr = ca1;
+		r = (n2 - n1) / (n2 + n1);
+		r *= r;
+	}
+	else if (ca1 < COS90)
+	{ /** very slant. **/
+		*ca2_Ptr = 0.0;
+		r = 1.0;
+	}
+	else
+	{ /** general. **/
+		double sa1, sa2;
+		/* sine of the incident and transmission angles. */
+		double ca2;
+
+		sa1 = sqrt(1 - ca1 * ca1);
+		sa2 = n1 * sa1 / n2;
+		if (sa2 >= 1.0) {
+			/* double check for total internal reflection. */
+			*ca2_Ptr = 0.0;
+			r = 1.0;
+
+		}
+		else
+		{
+			double cap, cam; /* cosines of the sum ap or */
+			/* difference am of the two */
+				/* angles. ap = a1+a2 */
+				/* am = a1 - a2. */
+			double sap, sam; /* sines. */
+
+			*ca2_Ptr = ca2 = sqrt(1 - sa2 * sa2);
+
+			cap = ca1 * ca2 - sa1 * sa2; /* c+ = cc - ss. */
+			cam = ca1 * ca2 + sa1 * sa2; /* c- = cc + ss. */
+			sap = sa1 * ca2 + ca1 * sa2; /* s+ = sc + cs. */
+			sam = sa1 * ca2 - ca1 * sa2; /* s- = sc - cs. */
+			r = 0.5 * sam * sam * (cam * cam + cap * cap) / (sap * sap * cam * cam);
+			/* rearranged for speed. */
+
+		}
+	}
+
+	return r;
 }
