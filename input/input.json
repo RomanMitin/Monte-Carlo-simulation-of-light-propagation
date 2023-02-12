@@ -22,10 +22,10 @@
     "dz": 1e-3,
     "dr": 1,
 
-    "nr": 13,
+    "lenght_r": 10.2, 
 
     "Critical_weight": 0.1,
-    "Photon_num": 50000,
+    "Photon_num": 5000000,
     "Thread_num": 4
   }
 }
