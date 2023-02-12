@@ -57,7 +57,8 @@ void from_json(const json& j, State_t& state)
 	state.dz = j.at("dz");
 	state.dr = j.at("dr");
 
-	state.nr = j.at("nr");
+	double lenght_r = j.at("lenght_r");
+	state.nr = (lenght_r + state.dr - 1) / state.dr;
 	state.nz = static_cast<uint32_t>(state.layers.back().z0 / state.dz);
 
 	//state.Output_data.A_l.resize(state.nr);
