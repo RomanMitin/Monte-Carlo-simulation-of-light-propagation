@@ -1,0 +1,9 @@
+#pragma once    
+
+#if ${IS_WINDOWS}
+#define WINDOWS
+#endif
+
+#if ${IS_UNIX}
+#define UNIX
+#endif

@@ -25,7 +25,7 @@
     "lenght_r": 10.2, 
 
     "Critical_weight": 0.1,
-    "Photon_num": 5000000,
-    "Thread_num": 4
+    "Photon_num": 50000,
+    "Thread_num": 2
   }
 }

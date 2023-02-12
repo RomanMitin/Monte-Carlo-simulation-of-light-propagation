@@ -34,6 +34,8 @@ bld/
 [Ll]ogs/
 build
 
+#config result
+Config.hpp
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
