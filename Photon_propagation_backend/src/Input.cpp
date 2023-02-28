@@ -9,18 +9,30 @@
 
 using json = nlohmann::json;
 
+void handle_json_exception(const json::exception& ex)
+{
+	std::cerr << "Exception in json file!!\n";
+	std::cerr << ex.what();
+}
+
 void from_json(const json& j, Layer_t& layer)
 {
-	layer.z0 = j.at("z0");
-	layer.z1 = j.at("z1");
+	try
+	{
+		layer.z0 = j.at("z0");
+		layer.z1 = j.at("z1");
 
-	layer.n = j.at("n");
+		layer.n = j.at("n");
 
-	layer.mua = j.at("mua");
-	layer.mus = j.at("mus");
+		layer.mua = j.at("mua");
+		layer.mus = j.at("mus");
 
-	layer.g = j.at("g");
-
+		layer.g = j.at("g");
+	}
+	catch (json::exception ex)
+	{
+		handle_json_exception(ex);
+	}
 	/*layer.cos_crit0 = j.at("cos_crit0");
 	layer.cos_crit1 = j.at("cos_crit1");*/
 }
@@ -48,14 +60,30 @@ void calc_cos_crit(std::vector<Layer_t>& layers)
 void from_json(const json& j, State_t& state)
 {
 	std::vector<Layer_t> tmp_vec;
-	tmp_vec = j.at("layers");
+
+	try
+	{
+
+		tmp_vec = j.at("layers");
+	}
+	catch (json::exception ex)
+	{
+		handle_json_exception(ex);
+	}
 
 	state.layers.emplace_back(Layer_t());
 	std::copy(tmp_vec.begin(), tmp_vec.end(), std::back_inserter(state.layers));
 	state.layers.emplace_back(Layer_t(state.layers.back().z1));
 
-	state.dz = j.at("dz");
-	state.dr = j.at("dr");
+	try
+	{
+		state.dz = j.at("dz");
+		state.dr = j.at("dr");
+	}
+	catch (json::exception ex)
+	{
+		handle_json_exception(ex);
+	}
 
 	double lenght_r = j.at("lenght_r");
 	state.nr = (lenght_r + state.dr - 1) / state.dr;
@@ -68,11 +96,17 @@ void from_json(const json& j, State_t& state)
 		std::cerr << "Warning: nz not uzed\n";
 	}
 
-	state.critical_weigth = j.at("Critical_weight");
-
-	state.photon_num = j.at("Photon_num");
-
-	uint32_t thread_num = j.at("Thread_num");
+	uint32_t thread_num;
+	try
+	{
+		state.critical_weigth = j.at("Critical_weight");
+		state.photon_num = j.at("Photon_num");
+		thread_num = j.at("Thread_num");
+	}
+	catch (json::exception ex)
+	{
+		handle_json_exception(ex);
+	}
 
 	state.Output_data.resize(thread_num);
 
@@ -100,7 +134,14 @@ State_t input_state(const std::string& input_file_name)
 
 	//std::cout << j << '\n';
 
-	state = j.at("State");
+	try
+	{
+		state = j.at("State");
+	}
+	catch (json::exception ex)
+	{
+		handle_json_exception(ex);
+	}
 
 	calc_cos_crit(state.layers);
 	state.calc_Rspecular();

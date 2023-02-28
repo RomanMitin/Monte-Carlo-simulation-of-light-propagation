@@ -13,7 +13,7 @@ int main(int argc, char* argv[])
 	if (argc >= 2)
 		input_str = argv[1];
 	else
-		input_str = "../input/input.json";
+		input_str = "D:\\Code\\Monte-Carlo-simulation-of-light-propagation\\input\\input5.json";
 
 	State_t s = input_state(input_str);
 
