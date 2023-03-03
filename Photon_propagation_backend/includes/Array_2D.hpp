@@ -115,6 +115,8 @@ private:
 
 	size_t size_row;
 	size_t size_col;
+
+public:
 	T* data;
 };
 

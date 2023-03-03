@@ -39,10 +39,13 @@
     <ClInclude Include="includes\Input.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="includes\Output.hpp">
+    <ClInclude Include="includes\Output_to_console.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="includes\Launch_photon.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="includes\Output_to_file.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -68,7 +71,10 @@
     <ClCompile Include="src\Launch_photon.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Output.cpp">
+    <ClCompile Include="src\Output_to_console.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Output_to_file.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

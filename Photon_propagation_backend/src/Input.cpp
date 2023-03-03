@@ -110,7 +110,7 @@ void from_json(const json& j, State_t& state)
 
 	state.Output_data.resize(thread_num);
 
-	for (int i = 0; i < thread_num; i++)
+	for (uint32_t i = 0; i < thread_num; i++)
 	{
 		state.Output_data[i].A_rz = Array_2d_t<double>(state.nr, state.nz);
 	}
