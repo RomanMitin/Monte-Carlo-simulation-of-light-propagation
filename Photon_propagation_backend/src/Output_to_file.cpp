@@ -6,7 +6,7 @@ void output_to_file(const Output_data_t& output_data, const std::string& output_
 {
 	std::ofstream output_file;
 
-	output_file.open(output_filename, std::ios_base::binary);
+	output_file.open(output_filename, std::ios::binary | std::ios::out);
 
 	if (!output_file.is_open())
 	{
