@@ -29,14 +29,27 @@ configure_file(${CMAKE_CURRENT_SOURCE_DIR}/config/Config.hpp.in
 	${CMAKE_CURRENT_SOURCE_DIR}/includes/Config.hpp)
 
 # Add all source and headers
-add_executable(${PROJECT_NAME} 
-	${CMAKE_CURRENT_SOURCE_DIR}/src/Input.cpp 
+set(HEADERS ${CMAKE_CURRENT_SOURCE_DIR}/includes/Array_2D.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Defines.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Input.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Launch_photon.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Layer.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Output_data.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Output_to_console.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Output_to_file.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Photon.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/Rand_gen.hpp
+	${CMAKE_CURRENT_SOURCE_DIR}/includes/State.hpp)
+
+add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/Input.cpp 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Launch_photon.cpp 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Layer.cpp 
-	${CMAKE_CURRENT_SOURCE_DIR}/src/Output.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Output_to_console.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Output_to_file.cpp 
 	${CMAKE_CURRENT_SOURCE_DIR}/src/Photon.cpp 
-	${CMAKE_CURRENT_SOURCE_DIR}/src/Rand_gen.cpp src/State.cpp 
-	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp)
+	${CMAKE_CURRENT_SOURCE_DIR}/src/Rand_gen.cpp 
+	${CMAKE_CURRENT_SOURCE_DIR}/src/State.cpp
+	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${HEADERS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/includes)
 
