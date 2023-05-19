@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace Photon_propagation_frontend
 
         const Int32 PhotonNumReduction = (1 << 11);
 
-        const string PathToBackendProcess = "..\\..\\..\\Photon_propagation_backend\\x64\\Release\\Grad_work_bachelor.exe";
+        const string PathToBackendProcess = "..\\..\\..\\build\\Photon_propagation_backend\\Release\\Photon_propagation_backend.exe";
 
         public SimulationForm(string inputFilename, string outputFilename, Int32 Total_photon_num, int flags)
         {
@@ -48,6 +49,13 @@ namespace Photon_propagation_frontend
 
         private void StartSimulation()
         {
+            if(!File.Exists(PathToBackendProcess))
+            {
+                MessageBox.Show("Theire is no executable in " + PathToBackendProcess +
+                    ". Build backend project with cmake to build folder before start simulation", "No backend executable",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
             var processStartInfo = new ProcessStartInfo
             {
                 FileName = PathToBackendProcess,
