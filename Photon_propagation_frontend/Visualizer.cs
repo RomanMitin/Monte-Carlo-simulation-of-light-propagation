@@ -10,8 +10,8 @@ namespace Photon_propagation_frontend
 {
     internal class Visualizer
     {
-        const int image_wight = 1500;
-        const int image_height = 920;
+        const int image_wight = 1920;
+        const int image_height = 1080;
         static private Int32 block_widht;
         static private Int32 block_height;
 
@@ -42,20 +42,12 @@ namespace Photon_propagation_frontend
         
         static void Normalizematrix(double[,] Matrix)
         {
+            double Max = 0.0;
             for (int i = 0; i < Matrix.GetLength(0); i++)
             {
                 for (int j = 0; j < Matrix.GetLength(1); j++)
                 {
                     Matrix[i, j] = Math.Log(Math.Log(Matrix[i, j] + 1) + 1);
-                }
-            }
-
-            double Max = 0.0;
-
-            for(int i = 0; i < Matrix.GetLength(0); i++)
-            {
-                for(int j = 0; j < Matrix.GetLength(1); j++)
-                {
                     Max = Math.Max(Max, Matrix[i, j]);
                 }
             }
