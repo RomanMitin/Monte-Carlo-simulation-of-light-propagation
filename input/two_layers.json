@@ -38,8 +38,8 @@
   "dr": 0.01,
   "dz": 5.0000000000000002E-05,
   "lenght_r": 20.199999999999999,
-  "Photon_num": 1000000,
-  "Thread_num": 4,
+  "Photon_num": 20000000,
+  "Thread_num": 8,
   "Critical_weight": 0.01
 }
 }
