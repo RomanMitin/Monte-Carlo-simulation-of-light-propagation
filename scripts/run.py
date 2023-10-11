@@ -3,6 +3,7 @@ import sys
 import os
 import re
 import csv
+import json
 import statistics
 
 binary_path = sys.argv[1]
@@ -10,22 +11,40 @@ binary_path = sys.argv[1]
 num_to_run = int(sys.argv[2])
 script_output_f = sys.argv[3]
 
+need_to_handle_num_threads = False
+
 if(len(sys.argv) > 4):
-    input = sys.argv[4]
-else:
-    input = "~/code/Monte-Carlo-simulation-of-light-propagation/input/two_layers.json"
+    num_threads = int(sys.argv[4])
+    need_to_handle_num_threads = True
 
 if(len(sys.argv) > 5):
-    output = sys.argv[5]
+    input = sys.argv[5]
+else:
+    input = "/home/roman/code/Monte-Carlo-simulation-of-light-propagation/input/two_layers.json"
+
+if(len(sys.argv) > 6):
+    output = sys.argv[6]
 else:
     output = "/dev/null"
 
 args = input + " " + output
 
-print("Running ", binary_path)
-print("With args ", args)
+with open(input, "r") as jsonFile:
+    data = json.load(jsonFile)
 
-comand_to_run = "taskset -c 0-7 " + binary_path + " " + args
+    if need_to_handle_num_threads:
+        data["State"]["Thread_num"] = num_threads
+
+        with open(input, "w") as jsonFile:
+            json.dump(data, jsonFile)
+    else:
+        num_threads = data["State"]["Thread_num"]
+
+# TODO Change for ARM
+last_core = max(num_threads, 8)
+comand_to_run = "taskset -c 0-" + str(last_core) + " " + binary_path + " " + args
+
+print("Runnig comand: ", comand_to_run)
 
 res_list = []
 
