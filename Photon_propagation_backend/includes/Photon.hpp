@@ -5,6 +5,8 @@
 #include "Defines.hpp"
 #include "Layer.hpp"
 
+struct Rand_gen_t;
+
 struct Photon_t
 {
 	double x, y, z; // point
@@ -23,13 +25,13 @@ struct Photon_t
 
 	bool is_alive();
 
-	void Roulette();
+	void Roulette(double rand_num);
 
-	double spinTheta(double g);
-	void spin(double g);
+	double spinTheta(double g, double rand_num);
+	void spin(double g, double rand_num);
 
 	void set_step_size_in_glass(const Layer_t& layer);
-	void set_step_size_in_tissue(const Layer_t& layer);
+	void set_step_size_in_tissue(const Layer_t& layer, Rand_gen_t& rand_gen);
 
 	//void set_step_size(const Layer_t& layer);
 	

@@ -140,7 +140,7 @@ void State_t::try_cross(Photon_t& photon)
 			photon.uz = -uz;
 		}
 		else
-			if (rand_gen() > r)
+			if (rand_gen(tid) > r)
 			{/* transmitted to layer+1. */
 				photon.cur_layer_ind += sign;
 				photon.ux *= ni / nt;
@@ -154,7 +154,7 @@ void State_t::try_cross(Photon_t& photon)
 	else
 	{
 		
-		if (rand_gen() > r) 
+		if (rand_gen(tid) > r) 
 		{ 
 			/* transmitted to layer+1. */
 			if (photon.cur_layer_ind == limit) {
@@ -200,7 +200,7 @@ void State_t::alg_step_tissue(Photon_t& photon)
 {
 	const Layer_t& layer = get_layer(photon);
 
-	photon.set_step_size_in_tissue(layer);
+	photon.set_step_size_in_tissue(layer, rand_gen);
 
 	if (photon.hit_boundary(layer))
 	{
@@ -211,7 +211,7 @@ void State_t::alg_step_tissue(Photon_t& photon)
 	{
 		photon.do_step();
 		update_weight(photon);
-		photon.spin(layer.g);
+		photon.spin(layer.g, rand_gen(tid));
 	}
 }
 
@@ -230,7 +230,7 @@ void State_t::alg_step(Photon_t& photon)
 
 	if (photon.weight < critical_weigth && photon.is_alive())
 	{
-		photon.Roulette();
+		photon.Roulette(rand_gen(tid));
 	}
 
 }

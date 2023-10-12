@@ -1,26 +1,25 @@
 #include "Rand_gen.hpp"
+#include <cassert>
 
-Rand_gen_t rand_gen;
-
-Rand_gen_t::Rand_gen_t()
-	:rand_engine(), dist(0.0, 1.0) {}
-
-Rand_gen_t::Rand_gen_t(const Rand_gen_t& rhs)
-	: rand_engine(rhs.rand_engine), dist(rhs.dist) {}
-
-Rand_gen_t::Rand_gen_t(uint32_t seed)
-	: rand_engine(seed), dist() {}
-
-Rand_gen_t& Rand_gen_t::operator=(const Rand_gen_t& rhs)
+Rand_gen_t::Rand_gen_t(size_t num_threads)
+	: rand_engines()
 {
-	rand_engine = rhs.rand_engine;
-	dist = rhs.dist;
-
-	return *this;
+	set_thread_num(num_threads);
 }
 
-double Rand_gen_t::operator()()
+void Rand_gen_t::set_thread_num(size_t new_thread_num)
 {
-	return dist(rand_engine);
+	rand_engines.clear();
+	rand_engines.reserve(new_thread_num);
+	for (size_t i = 0; i < new_thread_num; i++)
+	{
+		rand_engines.emplace_back(i);
+	}
 }
 
+double Rand_gen_t::operator()(int tid)
+{
+	assert(tid < rand_engines.size());
+	std::uniform_real_distribution dist(0.0, 1.0);
+	return dist(rand_engines[tid]);
+}

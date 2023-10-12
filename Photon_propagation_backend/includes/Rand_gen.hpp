@@ -6,17 +6,19 @@
 
 class Rand_gen_t
 {
-	std::mt19937 rand_engine;
-	std::uniform_real_distribution<> dist;
+	// TODO add align
+	std::vector<std::mt19937> rand_engines;
 public:
-	Rand_gen_t();
-	Rand_gen_t(const Rand_gen_t&);
+	Rand_gen_t(size_t num_threads = 1);
 
-	Rand_gen_t(uint32_t seed);
+	void set_thread_num(size_t new_thread_num);
+	Rand_gen_t(Rand_gen_t&&) = default;
 
-	Rand_gen_t& operator=(const Rand_gen_t&);
+	// Rand_gen_t(uint32_t seed);
 
-	double operator()();
+	Rand_gen_t& operator=(Rand_gen_t&&) = default;
+
+	double operator()(int tid);
 
 	~Rand_gen_t() = default;
 };

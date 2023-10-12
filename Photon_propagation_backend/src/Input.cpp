@@ -109,6 +109,7 @@ void from_json(const json& j, State_t& state)
 	}
 
 	state.Output_data.resize(thread_num);
+	state.rand_gen.set_thread_num(thread_num);
 
 	for (uint32_t i = 0; i < thread_num; i++)
 	{

@@ -1,14 +1,11 @@
-#include "Rand_gen.hpp"
 #include "Photon.hpp"
+#include "Rand_gen.hpp"
+#include "State.hpp"
 
 #include <cmath>
 #include <assert.h>
 
-
-extern Rand_gen_t rand_gen;
-
-
-double get_sign(double num)
+static double get_sign(double num)
 {
 	uint64_t bit_num = static_cast<uint64_t>(num);
 	bit_num &= (1ull << 63);
@@ -28,7 +25,7 @@ bool Photon_t::is_alive()
 	return !dead;
 }
 
-void Photon_t::Roulette()
+void Photon_t::Roulette(double rand_num)
 {
 	assert(weight >= 0);
 
@@ -38,7 +35,7 @@ void Photon_t::Roulette()
 	}
 	else
 	{
-		if (rand_gen() < CHANCE)
+		if (rand_num < CHANCE)
 		{
 			weight /= CHANCE;
 		}
@@ -49,17 +46,17 @@ void Photon_t::Roulette()
 	}
 }
 
-double Photon_t::spinTheta(double g)
+double Photon_t::spinTheta(double g, double rand_num)
 {
 	double cost;
 
 	if (g == 0.0)
 	{
-		cost = 2 * rand_gen() - 1;
+		cost = 2 * rand_num - 1;
 	}
 	else 
 	{
-		double temp = (1 - g * g) / (1 - g + 2 * g * rand_gen());
+		double temp = (1 - g * g) / (1 - g + 2 * g * rand_num);
 		cost = (1 + g * g - temp * temp) / (2 * g);
 
 	}
@@ -67,7 +64,7 @@ double Photon_t::spinTheta(double g)
 	return cost;
 }
 
-void Photon_t::spin(double g)
+void Photon_t::spin(double g, double rand_num)
 {
 
 	double cost, sint; /* cosine and sine of the */
@@ -76,11 +73,11 @@ void Photon_t::spin(double g)
 	/* azimuthal angle psi. */
 	double psi;
 
-	cost = spinTheta(g);
+	cost = spinTheta(g, rand_num);
 	sint = sqrt(1.0 - cost * cost);
 	/* sqrt() is faster than sin(). */
 
-	psi = 2.0 * PI * rand_gen(); /* spin psi 0-2pi. */
+	psi = 2.0 * PI * rand_num; /* spin psi 0-2pi. */
 	cosp = cos(psi);
 	if (psi < PI)
 		sinp = sqrt(1.0 - cosp * cosp);
@@ -116,7 +113,7 @@ void Photon_t::set_step_size_in_glass(const Layer_t& layer)
 			step = 0.0;
 }
 
-void Photon_t::set_step_size_in_tissue(const Layer_t& layer)
+void Photon_t::set_step_size_in_tissue(const Layer_t& layer, Rand_gen_t& rand_gen)
 {
 	double mut = layer.mua + layer.mus;
 
@@ -125,9 +122,9 @@ void Photon_t::set_step_size_in_tissue(const Layer_t& layer)
 		double rnd;
 		do
 		{
-			rnd = rand_gen();
+			rnd = rand_gen(tid);
 		}
-		while (rnd <= 0.0);
+		while (rnd == 0.0);
 
 		step = -log(rnd) / mut;
 	}

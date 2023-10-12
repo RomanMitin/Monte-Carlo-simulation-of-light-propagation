@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.5)
 
 project(Photon_propagation_backend VERSION 0.2)
 
-
 # Set Build type
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message("Setting build type to 'Debug' as none was specified.")
@@ -22,6 +21,9 @@ if (UNIX)
 else (UNIX)
 	set(IS_UNIX false)
 endif (UNIX)
+
+# add tests subdirectory
+add_subdirectory(tests)
 
 
 # Configure 
@@ -52,6 +54,16 @@ add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/Input.cpp
 	${CMAKE_CURRENT_SOURCE_DIR}/src/main.cpp ${HEADERS})
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/includes)
+
+if (UNIX)
+	set(DEBUG_OPTS "-g;-O0;-fsanitize=thread")
+	set(RELEASE_OPTS "-flto=auto")
+	target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_OPTS}>")
+	target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:RELEASE>:${RELEASE_OPTS}>")
+	target_link_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_OPTS}>")
+	target_link_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:RELEASE>:${RELEASE_OPTS}>")
+endif (UNIX)
+
 
 # Add json library
 add_library(Json_lib INTERFACE)

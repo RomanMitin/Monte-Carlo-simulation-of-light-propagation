@@ -14,7 +14,7 @@ struct State_t
 
 	std::vector<Layer_t> layers;
 
-	//Rand_gen_t rand_gen;
+	Rand_gen_t rand_gen;
 
 	double dz, dr/*, da*/;
 
@@ -24,6 +24,9 @@ struct State_t
 	std::vector<Output_data_t> Output_data;
 
 	State_t() = default;
+	
+	State_t(State_t&&) = default;
+	State_t& operator=(State_t&&) = default;
 
 	Layer_t& get_layer(Photon_t& photon);
 

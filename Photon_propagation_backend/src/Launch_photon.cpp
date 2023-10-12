@@ -65,7 +65,6 @@ void execute_photon_launch(State_t &state)
 	cacl_state.store(cacl_state_e::start_caclulation ,std::memory_order_relaxed);
 	simulatuin_end_latch.wait();
 	auto end = std::chrono::steady_clock::now();
-	// const std::chrono::duration<double> elapsed_seconds{end - start};
 
 	std::cout << "Simulation time: " << std::chrono::duration<double>(end - start) << "\n";
 
