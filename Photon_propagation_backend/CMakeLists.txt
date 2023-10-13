@@ -57,7 +57,7 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/i
 
 if (UNIX)
 	set(DEBUG_OPTS "-g;-O0;-fsanitize=thread")
-	set(RELEASE_OPTS "-flto=auto")
+	set(RELEASE_OPTS "-flto=auto;-march=native")
 	target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_OPTS}>")
 	target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:RELEASE>:${RELEASE_OPTS}>")
 	target_link_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_OPTS}>")

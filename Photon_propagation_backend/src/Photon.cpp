@@ -135,11 +135,6 @@ void Photon_t::set_step_size_in_tissue(const Layer_t& layer, Rand_gen_t& rand_ge
 	}
 }
 
-//void Photon_t::set_step_size(const Layer_t& layer)
-//{
-//
-//}
-
 bool Photon_t::hit_boundary(const Layer_t& layer)
 {
 	double dl_b; /* length to boundary. */
