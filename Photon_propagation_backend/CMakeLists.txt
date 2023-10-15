@@ -56,8 +56,8 @@ add_executable(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/src/Input.cpp
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/includes)
 
 if (UNIX)
-	set(DEBUG_OPTS "-g;-O0;-fsanitize=thread")
-	set(RELEASE_OPTS "-flto=auto;-march=native")
+	set(DEBUG_OPTS "-g;-O0;-fsanitize=thread;-std=c++20")
+	set(RELEASE_OPTS "-flto=auto;-march=native;-std=c++20")
 	target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_OPTS}>")
 	target_compile_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:RELEASE>:${RELEASE_OPTS}>")
 	target_link_options(${PROJECT_NAME} PUBLIC "$<$<CONFIG:DEBUG>:${DEBUG_OPTS}>")
@@ -70,8 +70,5 @@ add_library(Json_lib INTERFACE)
 target_include_directories(Json_lib INTERFACE ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
 
 target_link_libraries(${PROJECT_NAME} Json_lib)
-
-# Specify C++ standart
-target_compile_features(${PROJECT_NAME} PRIVATE cxx_std_20)
 
 

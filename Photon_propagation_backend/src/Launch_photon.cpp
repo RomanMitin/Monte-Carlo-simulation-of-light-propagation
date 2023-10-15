@@ -66,7 +66,7 @@ void execute_photon_launch(State_t &state)
 	simulatuin_end_latch.wait();
 	auto end = std::chrono::steady_clock::now();
 
-	std::cout << "Simulation time: " << std::chrono::duration<double>(end - start) << "\n";
+	std::cout << "Simulation time: " << std::chrono::duration<double>(end - start).count() << "\n";
 
 	for (uint32_t i = 1; i < state.get_num_threads(); i++)
 	{
@@ -81,7 +81,7 @@ void execute_photon_launch(State_t &state)
 	}
 
 	end = std::chrono::steady_clock::now();
-	std::cout << "Total calculation time: " << std::chrono::duration<double>(end - start) << "\n";
+	std::cout << "Total calculation time: " << std::chrono::duration<double>(end - start).count() << "\n";
 
 	for (uint32_t i = 0; i < state.get_num_threads(); i++)
 	{

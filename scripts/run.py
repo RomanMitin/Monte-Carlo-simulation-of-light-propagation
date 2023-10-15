@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/bin/env python3
 import sys
 import os
 import re
@@ -20,7 +20,7 @@ if(len(sys.argv) > 4):
 if(len(sys.argv) > 5):
     input = sys.argv[5]
 else:
-    input = "/home/roman/code/Monte-Carlo-simulation-of-light-propagation/input/two_layers.json"
+    input = "~/code/Monte-Carlo-simulation-of-light-propagation/input/two_layers.json"
 
 if(len(sys.argv) > 6):
     output = sys.argv[6]
@@ -40,8 +40,7 @@ with open(input, "r") as jsonFile:
     else:
         num_threads = data["State"]["Thread_num"]
 
-# TODO Change for ARM
-last_core = max(num_threads, 8)
+last_core = num_threads - 1
 comand_to_run = "taskset -c 0-" + str(last_core) + " " + binary_path + " " + args
 
 print("Runnig comand: ", comand_to_run)
