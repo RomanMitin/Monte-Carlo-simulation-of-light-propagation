@@ -1,0 +1,21 @@
+
+ Performance counter stats for 'Photon_propagation_backend/Photon_propagation_backend ../input/two_layers.json /dev/null':
+
+        460,814.78 msec task-clock                       #    7.785 CPUs utilized             
+             8,654      context-switches                 #   18.780 /sec                      
+                12      cpu-migrations                   #    0.026 /sec                      
+            48,219      page-faults                      #  104.639 /sec                      
+ 1,923,820,912,423      cycles                           #    4.175 GHz                         (83.34%)
+     1,441,778,551      stalled-cycles-frontend          #    0.07% frontend cycles idle        (83.33%)
+     4,030,075,546      stalled-cycles-backend           #    0.21% backend cycles idle         (83.33%)
+ 2,830,818,322,192      instructions                     #    1.47  insn per cycle            
+                                                  #    0.00  stalled cycles per insn     (83.33%)
+   367,767,240,501      branches                         #  798.080 M/sec                       (83.33%)
+     6,512,630,853      branch-misses                    #    1.77% of all branches             (83.33%)
+
+      59.196096483 seconds time elapsed
+
+     460.174036000 seconds user
+       0.615927000 seconds sys
+
+
